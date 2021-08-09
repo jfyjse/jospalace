@@ -1,6 +1,4 @@
-# jospalace - Buy and sell anything.
-# Ebazzar - Ecommerce Shopping app
-
+# Jospalace - Buy and sell anything.
 
 
 ## Requirements
