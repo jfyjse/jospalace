@@ -1,15 +1,18 @@
 package com.joffy.jospalace.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "listing")
-public class ListingEntity implements Serializable {
-    private static final long serialVersionUID = -448814212475655244L;
+public class ListingEntity  {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id",nullable = false)//nullable=false
     private UserEntity userEntity;

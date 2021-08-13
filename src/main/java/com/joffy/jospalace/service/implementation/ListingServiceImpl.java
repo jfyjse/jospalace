@@ -8,6 +8,8 @@ import com.joffy.jospalace.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ListingServiceImpl {
 
@@ -22,5 +24,10 @@ public class ListingServiceImpl {
         listing.setUserEntity(userId);
         System.out.println("userid   "+userId.getUserId());
         listingRepository.save(listing);
+    }
+
+    public List<ListingEntity> getAllListings() {
+        List<ListingEntity> listingEntities = listingRepository.getAllListing();
+        return listingEntities;
     }
 }
