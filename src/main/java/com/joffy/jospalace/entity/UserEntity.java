@@ -1,10 +1,11 @@
 package com.joffy.jospalace.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
 @Entity(name = "users")
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = -4496691386034760353L;
@@ -29,6 +30,19 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false,length = 11)
     private Integer phone;
+
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ListingEntity> listingEntities;
+
+    public List<ListingEntity> getListingEntities() {
+        return listingEntities;
+    }
+
+    public void setListingEntities(List<ListingEntity> listingEntities) {
+        this.listingEntities = listingEntities;
+    }
 
     public long getId() {
         return id;
