@@ -20,10 +20,21 @@ public class ListingEntity  {
     @Column(nullable = false)
     private String listingName;
 
+    @Column
+    private String images;
+
     private String description;
 
     @Column(nullable = false)
     private Integer price;
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
 
     public String getListingName() {
         return listingName;
