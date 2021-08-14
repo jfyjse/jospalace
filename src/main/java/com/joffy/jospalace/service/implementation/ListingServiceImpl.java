@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public class ListingServiceImpl {
         listing.setDescription(listingAddItem.getDescription());
         listing.setPrice(listingAddItem.getPrice());
         listing.setUserEntity(userId);
+        listing.setImages("no image");
         System.out.println("userid   "+userId.getUserId());
         listingRepository.save(listing);
     }
@@ -40,11 +43,24 @@ public class ListingServiceImpl {
         Optional<ListingEntity> listingEntity = listingRepository.findById(listingId);
         ListingEntity findListing = listingEntity.get();
         if(listingEntity.isEmpty()){ throw new IllegalStateException("no listings found");}
-
-
-        file.transferTo(new File("/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + uid));
-       // ListingEntity listing= new ListingEntity();
-        findListing.setImages("/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + uid);
+        String path ="/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + uid;
+        file.transferTo(new File(path));
+        findListing.setImages(path);
         listingRepository.save(findListing);
     }
+
+
+    public void deleteImage(Long listingId, String uid) throws IOException {
+
+        Optional<ListingEntity> listingEntity = listingRepository.findById(listingId);
+        ListingEntity findListing = listingEntity.get();
+        if(listingEntity.isEmpty()){ throw new IllegalStateException("no listings found");}
+
+        Path path = Path.of("/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + uid);
+        Files.delete(path);
+        findListing.setImages("deleted");
+        listingRepository.save(findListing);
+    }
+
+
 }
