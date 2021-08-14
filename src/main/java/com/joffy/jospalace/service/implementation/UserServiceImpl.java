@@ -2,6 +2,7 @@ package com.joffy.jospalace.service.implementation;
 
 import com.joffy.jospalace.dto.UserDto;
 import com.joffy.jospalace.entity.UserEntity;
+import com.joffy.jospalace.model.UpdateUserRequestModel;
 import com.joffy.jospalace.repository.UserRepository;
 import com.joffy.jospalace.service.UserService;
 import com.joffy.jospalace.shared.Utils;
@@ -78,5 +79,17 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByUserId(userId);
         userEntity.setAccountStatus(false);
         userRepository.save(userEntity);
+    }
+
+    public UserDto updateUser(UserDto user, String uid) {
+        UserEntity userEntity = userRepository.findByUserId(uid);
+        userEntity.setName(user.getName());
+        userEntity.setLocation(user.getLocation());
+        userEntity.setPhone(user.getPhone());
+        userRepository.save(userEntity);
+        BeanUtils.copyProperties(userEntity,user);
+
+        return user;
+
     }
 }
