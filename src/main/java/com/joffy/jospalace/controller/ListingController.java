@@ -44,7 +44,7 @@ public class ListingController {
         return listingEntities;
     }
 
-    @PostMapping("image/upload/{pid}")
+    @PostMapping("/image/upload/{pid}")
     public void uploadListingImage(@RequestParam("file") MultipartFile file, @PathVariable(value = "pid") Long listingId ) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = userService.getUser(auth.getName());
@@ -56,5 +56,12 @@ public class ListingController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = userService.getUser(auth.getName());
         listingService.deleteImage(listingId,user.getUserId());
+    }
+
+    @DeleteMapping("/delete/{pid}")
+    public void deleteListing(@PathVariable(value = "pid") Long listingId) throws IOException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user = userService.getUser(auth.getName());
+        listingService.deleteListing(listingId,user.getUserId());
     }
 }

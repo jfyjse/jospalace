@@ -63,4 +63,11 @@ public class ListingServiceImpl {
     }
 
 
+    public void deleteListing(Long listingId, String userId) throws IOException {
+
+        Path path = Path.of("/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + userId);
+        listingRepository.deleteByListingId(listingId);
+        Files.delete(path);
+        listingRepository.deleteByListingId(listingId);
+    }
 }
