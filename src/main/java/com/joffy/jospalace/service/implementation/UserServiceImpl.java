@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         String publicUserId= utils.generatedUserId(10);
         userEntity.setUserId(publicUserId);
+        userEntity.setAccountStatus(true);
 
         UserEntity storedUserDetails= userRepository.save(userEntity);
         UserDto returnValue = new UserDto();
@@ -65,9 +66,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
        UserEntity userEntity = userRepository.findByEmail(email);
        if (userEntity == null) throw new UsernameNotFoundException(email);
+       if (userEntity.isAccountStatus() == false) throw new IllegalStateException(" account deactivated contact support");
 
         return new User(userEntity.getEmail(),userEntity.getEncryptedPassword(), new ArrayList<>());
+    }
+
+    public void deactivateAccount(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+        userEntity.setAccountStatus(false);
+        userRepository.save(userEntity);
     }
 }

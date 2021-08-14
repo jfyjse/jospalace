@@ -5,6 +5,7 @@ import com.joffy.jospalace.entity.UserEntity;
 import com.joffy.jospalace.model.UserDetailsRequestModel;
 import com.joffy.jospalace.model.UserRest;
 import com.joffy.jospalace.service.UserService;
+import com.joffy.jospalace.service.implementation.UserServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserServiceImpl userServiceimpl;
 
     @PostMapping
     public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails){
@@ -34,6 +38,15 @@ public class UserController {
         UserDto userDto = userService.getUserById(user.getUserId());
         BeanUtils.copyProperties(userDto, returnValue);
         return returnValue;
+    }
+
+    @GetMapping("/deactivate")
+    public void deactivateAccount(){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user = userService.getUser(auth.getName());
+        userServiceimpl.deactivateAccount(user.getUserId());
+
     }
 
 }

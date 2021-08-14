@@ -31,6 +31,16 @@ public class UserEntity implements Serializable {
     @Column(nullable = false,length = 11)
     private Integer phone;
 
+    private boolean accountStatus;
+
+    public boolean isAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(boolean accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonIgnore
