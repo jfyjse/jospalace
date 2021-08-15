@@ -16,4 +16,10 @@ public interface ListingRepository extends JpaRepository<ListingEntity,Long> {
     @Modifying
     @Query(value = "delete from listing l where l.id=?1 ", nativeQuery = true)
     void deleteByListingId(Long listingId);
+
+    @Query(value = "select user_id from listing l where l.id = ?1",nativeQuery = true)
+    Long findUserByListingId(Long listingId);
+
+    @Query(value = "select listing_name  from listing l where l.id = ?1",nativeQuery = true)
+    String findProductName(Long listingId);
 }

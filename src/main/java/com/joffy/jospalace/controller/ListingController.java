@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -63,5 +64,12 @@ public class ListingController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto user = userService.getUser(auth.getName());
         listingService.deleteListing(listingId,user.getUserId());
+    }
+
+    @PostMapping("/send/mail/{pid}")
+    public void sendMail(@PathVariable(value = "pid") Long listingId) throws MessagingException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto user = userService.getUser(auth.getName());
+        listingService.sendMail(listingId,user.getUserId());
     }
 }

@@ -3,10 +3,17 @@ import com.joffy.jospalace.entity.ListingEntity;
 import com.joffy.jospalace.entity.UserEntity;
 import com.joffy.jospalace.model.ListingAddRequestModel;
 import com.joffy.jospalace.repository.ListingRepository;
+import com.joffy.jospalace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +26,11 @@ public class ListingServiceImpl {
 
     @Autowired
     ListingRepository listingRepository;
+    @Autowired
+    JavaMailSender javaMailSender;
+
+    @Autowired
+    UserRepository userRepository;
 
     public void addToListing(ListingAddRequestModel listingAddItem, UserEntity userId) {
         ListingEntity listing = new ListingEntity();
@@ -66,5 +78,35 @@ public class ListingServiceImpl {
         Path path = Path.of("/home/joffy/Desktop/spring boot/jospalace/images/" + listingId + " " + userId);
         listingRepository.deleteByListingId(listingId);
         Files.delete(path);
+    }
+
+    public void sendMail(Long listingId, String userId) throws MessagingException {
+        Long listingUserId = listingRepository.findUserByListingId(listingId);//owner
+        Optional<UserEntity> user = userRepository.findById(listingUserId);
+        String owner = user.get().getName();
+        String fileName = user.get().getUserId();
+        String productName = listingRepository.findProductName(listingId);
+        UserEntity buy =userRepository.findByUserId(userId);
+        String buyer = buy.getName();
+        String buyEmail = buy.getEmail();
+        Integer buyPhone = buy.getPhone();
+
+        String bodyMessage = "hi, "+ owner + " your listing with id " +listingId + " and listing name " +productName+
+                " has been requested by "+buyer
+                +" interested buyer's contact info is provided for further escalation  "+" email : " +buyEmail +
+                " phone no: "+buyPhone + " if you have uploaded image of your product it has been attached to this mail.";
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(msg,true);
+        helper.setTo("joffy.jose.jfy@gmail.com");
+        helper.setSubject("Your Listing is been enquired");
+        helper.setText(bodyMessage);
+
+        FileSystemResource file = new FileSystemResource(new File
+                ("/home/joffy/Desktop/spring boot/jospalace/images/"+listingId+" "+fileName));
+        if (file.exists()) {
+            helper.addAttachment("yourListing.png", file);
+        }
+        javaMailSender.send(msg);
+
     }
 }
