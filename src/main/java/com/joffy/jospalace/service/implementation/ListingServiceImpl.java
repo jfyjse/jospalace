@@ -84,6 +84,7 @@ public class ListingServiceImpl {
         Long listingUserId = listingRepository.findUserByListingId(listingId);//owner
         Optional<UserEntity> user = userRepository.findById(listingUserId);
         String owner = user.get().getName();
+        String ownerEmail = user.get().getEmail();
         String fileName = user.get().getUserId();
         String productName = listingRepository.findProductName(listingId);
         UserEntity buy =userRepository.findByUserId(userId);
@@ -97,7 +98,7 @@ public class ListingServiceImpl {
                 " phone no: "+buyPhone + " if you have uploaded image of your product it has been attached to this mail.";
         MimeMessage msg = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg,true);
-        helper.setTo("joffy.jose.jfy@gmail.com");
+        helper.setTo(ownerEmail);
         helper.setSubject("Your Listing is been enquired");
         helper.setText(bodyMessage);
 
