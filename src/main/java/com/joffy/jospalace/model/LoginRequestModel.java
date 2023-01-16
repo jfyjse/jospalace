@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ListingAddRequestModel {
+@NoArgsConstructor
+public class LoginRequestModel {
 
-    private String listingName;
-    private String description;
-    private Integer price;
+    private String email;
+    private String password;
 
 }

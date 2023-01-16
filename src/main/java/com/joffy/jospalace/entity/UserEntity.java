@@ -1,12 +1,18 @@
 package com.joffy.jospalace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity(name = "users")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = -4496691386034760353L;
     @Id
@@ -32,81 +38,10 @@ public class UserEntity implements Serializable {
     private Integer phone;
 
     private boolean accountStatus;
-
-    public boolean isAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(boolean accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-
     @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+
     @JsonIgnore
     private List<ListingEntity> listingEntities;
 
-    public List<ListingEntity> getListingEntities() {
-        return listingEntities;
-    }
-
-    public void setListingEntities(List<ListingEntity> listingEntities) {
-        this.listingEntities = listingEntities;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Integer getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
 }

@@ -1,11 +1,17 @@
 package com.joffy.jospalace.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "listing")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ListingEntity  {
 
     @Id
@@ -28,51 +34,5 @@ public class ListingEntity  {
     @Column(nullable = false)
     private Integer price;
 
-    public String getImages() {
-        return images;
-    }
 
-    public void setImages(String images) {
-        this.images = images;
-    }
-
-    public String getListingName() {
-        return listingName;
-    }
-
-    public void setListingName(String listingName) {
-        this.listingName = listingName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
 }

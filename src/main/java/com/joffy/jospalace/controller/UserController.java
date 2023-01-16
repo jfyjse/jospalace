@@ -7,6 +7,8 @@ import com.joffy.jospalace.model.UserDetailsRequestModel;
 import com.joffy.jospalace.model.UserRest;
 import com.joffy.jospalace.service.UserService;
 import com.joffy.jospalace.service.implementation.UserServiceImpl;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,6 +34,15 @@ public class UserController {
         return returnValue;
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    required = true,
+                    name = "authorization",
+                    value = "bearer-token",
+                    dataType = "java.lang.String",
+                    paramType = "header"
+            )
+    })
     @GetMapping("/view/profile")
     public UserRest getUserProfile() {
         UserRest returnValue = new UserRest();
@@ -42,6 +53,15 @@ public class UserController {
         return returnValue;
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    required = true,
+                    name = "authorization",
+                    value = "bearer-token",
+                    dataType = "java.lang.String",
+                    paramType = "header"
+            )
+    })
     @PostMapping("/deactivate")
     public void deactivateAccount() {
 
@@ -51,6 +71,15 @@ public class UserController {
 
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    required = true,
+                    name = "authorization",
+                    value = "bearer-token",
+                    dataType = "java.lang.String",
+                    paramType = "header"
+            )
+    })
     @PutMapping ("/profile/edit")
     public UserRest updateUser(@RequestBody UpdateUserRequestModel updateDetails) {
         UserRest returnValue = new UserRest();
